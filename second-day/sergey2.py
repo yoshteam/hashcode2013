@@ -15,6 +15,7 @@ sys.setrecursionlimit(50000) #lol
 
 header = np.loadtxt("header.txt", dtype=int)
 GRAPH = np.loadtxt("links.txt",dtype=int)
+COORDINATES = np.loadtxt("nodes.txt",dtype=float)
 #header = np.loadtxt("header-small.txt", dtype=int)
 #GRAPH = np.loadtxt("links-small.txt",dtype=int)
 TIME   = header[2]
@@ -52,6 +53,12 @@ def remove_award(current_node, next_node, local_DIST):
         current_node_index = VOIS[next_node].index(current_node)
         local_DIST[next_node][current_node_index] = 0
 
+
+def distance(node1, node2):
+    return (
+               abs(COORDINATES[node1][0] - COORDINATES[node2][0]) + 
+               abs(COORDINATES[node1][1] - COORDINATES[node2][1]))
+        
 # VOIS[2803] = [1231, 123,123]
 # TPS[2803]  = [10s, 20s, 30s]
 # DIST[2803] = [10m, 200m, 300m]
@@ -87,7 +94,7 @@ def best_neighbour(current_node, current_cost):
     paths = [
         ([current_node], 0, current_cost)
         ]
-    res = look_forward(paths, recursion=6)
+    res = look_forward(paths, recursion=25)
     # THINK ABOUT LOCAL DEEPCOPY OF DIST!
     awards = [r[1] for r in res]
     if len(awards) == 0:
@@ -95,7 +102,6 @@ def best_neighbour(current_node, current_cost):
     maward = max(awards)
     neighbours = [r[0][1] for r in res 
                   if r[1] == maward]
-
     neigh = random.choice(neighbours)
     time = TPS[current_node] [VOIS[current_node].index(neigh)]
     return (neigh, time)
