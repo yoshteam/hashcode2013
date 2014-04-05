@@ -42,7 +42,7 @@ def best_neighbour(current_node, current_cost):
     # filter very costly
     good_neighbours_indexes = []
     for n in range(len(neighbours)):
-        if current_node + TPS[current_node][n] <= TIME:
+        if current_cost + TPS[current_node][n] <= TIME:
             good_neighbours_indexes.append(n)
     best_neighbour_index = random.choice(good_neighbours_indexes)
     cost = TPS[current_node][best_neighbour_index]
@@ -60,7 +60,7 @@ def remove_award(current_node, next_node):
 # CAR par CAR
 print CARS
 for CAR in range(CARS):
-    print (CAR)
+#    print (CAR)
     visited_nodes = []    
     current_node = STARTPOINT
     current_cost = 0
