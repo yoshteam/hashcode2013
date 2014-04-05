@@ -11,5 +11,10 @@ import networkx as nx
 graph = 
 source =
 
+
+length = []
+l_path = []
 for vertice in graph.vertices :
-	bidirectional_dijkstra(graph, source, vertice, weight='weight')
+	a,b = bidirectional_dijkstra(graph, source, vertice, weight='weight')
+	length.append(a)
+	l_path.append(b)
