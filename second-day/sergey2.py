@@ -84,6 +84,7 @@ def look_forward(paths, recursion=2):
             next_cost = TPS[current_node][n]
             next_award = local_dist[current_node][n]
             if current_cost + next_cost <= TIME and \
+               # do NOT backtrack
                (len(nodes) < 2 or not next_node == nodes[-2]):
                 new_nodes = deepcopy(nodes)
                 new_nodes.append(next_node)
@@ -100,7 +101,7 @@ def best_neighbour(current_node, current_cost):
     paths = [
         ([current_node], 0, current_cost, DIST)
         ]
-    res = look_forward(paths, recursion=3)
+    res = look_forward(paths, recursion=8)
     # THINK ABOUT LOCAL DEEPCOPY OF DIST!
     awards = [r[1] for r in res]
     if len(awards) == 0:
