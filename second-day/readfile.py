@@ -4,7 +4,7 @@ import pdb
 
 def read_file(path):
 	""" Parse link file into graph """
-	G = nx.DiGraph()
+	G = nx.Graph()
 
 	with open(path, 'r') as in_file:
 		for line in in_file:
@@ -29,4 +29,9 @@ def read_file(path):
 # Graph edges can be accessed with G.edges(), and attributes of edge (x,y) with G[x][y]['attribute']
 # Attributes are : street_type, time, length
 # Graph nodes can be accessed with G.nodes()
+graph = read_file("links.txt")
 
+degree = graph.degree()
+
+for node in degree:
+	print str(node) + " " + str(degree[node])
