@@ -19,8 +19,6 @@ def read_file(path):
 			G.add_node(u)
 			G.add_node(v)
 			G.add_edge(u, v, street_type=street_type, time=time, length=length, cost=cost)
-
-			sys.stdout.write(line)
 	return G
 
 # Graph edges can be accessed with G.edges(), and attributes of edge (x,y) with G[x][y]['attribute']
