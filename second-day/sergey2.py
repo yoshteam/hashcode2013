@@ -78,7 +78,8 @@ def best_neighbour(current_node, current_cost):
     paths = [
         ([current_node], 0, current_cost)
         ]
-    res = look_forward(paths, recursion=4)
+    res = look_forward(paths, recursion=5)
+    # THINK ABOUT LOCAL DEEPCOPY OF DIST!
     awards = [r[1] for r in res]
     if len(awards) == 0:
         return (-100,-100)
