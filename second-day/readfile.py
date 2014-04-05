@@ -4,7 +4,7 @@ import pdb
 
 def read_file(path):
 	""" Parse link file into graph """
-	G = nx.Digraph()
+	G = nx.DiGraph()
 
 	with open(path, 'r') as in_file:
 		for line in in_file:

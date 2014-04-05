@@ -18,8 +18,7 @@ def get_score(graph, start_node, depth):
 
 	while len(to_visit) is not 0 and curr_depth <= depth:
 		for node in to_visit:
-					
-			to_visit.remove(node)
+			#to_visit.remove(node)
 			
 			if curr_length + graph[best_node][node]['length'] > best_score:
 				best_score = curr_length + graph[best_node][node]['length']
