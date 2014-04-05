@@ -2,7 +2,7 @@
 import numpy as np
 import random
 from pprint import pprint
-from copy import deepcopy
+from copy import deepcopy,copy
 from sys import stderr
 import sys
 
@@ -65,36 +65,42 @@ def distance(node1, node2):
 # the main code
 
 # paths ---look_forward---> paths
-# path = (nodes, award, cost)
+# path = (nodes, award, cost, local_dist)
 def look_forward(paths, recursion=2):
-
     if recursion == 0:
         return paths
     out = []
     for p in paths:
-        path = deepcopy(p)
+        path = copy(p)
         nodes = path[0]
         current_award = path[1]
         current_cost  = path[2]
+        local_dist  = path[3]
         current_node = nodes[-1]
         neighbours = VOIS[current_node]
         # filter very costly
         for n in range(len(neighbours)):
-            if current_cost + TPS[current_node][n] <= TIME:
+            next_node = VOIS[current_node][n]
+            next_cost = TPS[current_node][n]
+            next_award = local_dist[current_node][n]
+            if current_cost + next_cost <= TIME and \
+               (len(nodes) < 2 or not next_node == nodes[-2]):
                 new_nodes = deepcopy(nodes)
-                new_nodes.append(VOIS[current_node][n])
-                cost = current_cost + TPS[current_node][n]
-                award = current_award + DIST[current_node][n]
-                newpath = (new_nodes, award, cost)
+                new_nodes.append(next_node)
+                cost = current_cost + next_cost
+                award = current_award + next_award
+#                local_dist = deepcopy(local_dist)
+#                remove_award(current_node, next_node, local_dist)
+                newpath = (new_nodes, award, cost, local_dist)
                 out.append(newpath)
     return (look_forward(out,recursion-1))
 
 
 def best_neighbour(current_node, current_cost):
     paths = [
-        ([current_node], 0, current_cost)
+        ([current_node], 0, current_cost, DIST)
         ]
-    res = look_forward(paths, recursion=25)
+    res = look_forward(paths, recursion=3)
     # THINK ABOUT LOCAL DEEPCOPY OF DIST!
     awards = [r[1] for r in res]
     if len(awards) == 0:
