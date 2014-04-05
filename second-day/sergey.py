@@ -51,18 +51,19 @@ def best_neighbour(current_node, current_cost):
 
 
     if len(good_neighbours_indexes) > 0:
-        awards = [DIST[current_node][ind] 
-                 for ind in good_neighbours_indexes]
-        maward = max(awards)
-        indexes = [ind for ind in good_neighbours_indexes
-                   if DIST[current_node][ind] == maward]
+        for n in good_neighbours_indexes:
+                possible_next_node = VOIS[current_node][n]
+                possible_cost = TPS[current_node][n]
+                bn = best_neighbour(possible_next_node, 
+                                    current_cost + possible_next_node)
 
-        costs = [TPS[current_node][ind] 
-                 for ind in good_neighbours_indexes]
-        mincost = min(costs)
+#        awards = [DIST[current_node][ind] 
+#                 for ind in good_neighbours_indexes]
+#        maward = max(awards)
+#        indexes = [ind for ind in good_neighbours_indexes
+#                   if DIST[current_node][ind] == maward]
+
         
-        indexes2 = [ind for ind in good_neighbours_indexes
-                    if TPS[current_node][ind] == mincost]
         
         best_neighbour_index = random.choice(indexes)
         cost = TPS[current_node][best_neighbour_index]
