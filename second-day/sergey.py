@@ -40,20 +40,22 @@ for i in range(N):
 def best_neighbour(current_node, current_cost):
     neighbours = VOIS[current_node]
     # filter very costly
-    good_neighbours = []
-    for n in neighbours:
-        if current_node + TPS[n] <= TIME:
-            good_neighbours.append(n)
-
-    best_neighbour = random.choice(good_neighbours)
-    cost = TPS[best_neighbour]
+    good_neighbours_indexes = []
+    for n in range(len(neighbours)):
+        if current_node + TPS[current_node][n] <= TIME:
+            good_neighbours_indexes.append(n)
+    best_neighbour_index = random.choice(good_neighbours_indexes)
+    cost = TPS[current_node][best_neighbour_index]
+    best_neighbour = neighbours[best_neighbour_index]
     return (best_neighbour, cost)
 
 def remove_award(current_node, next_node):
+    next_node_index = VOIS[current_node].index(next_node)
     """ the distance will be zero """
-    DIST[current_node][next_node] = 0
+    DIST[current_node][next_node_index] = 0
     if GRAPH[current_node,2]==2:
-        DIST[next_node][current_node] = 0
+        curent_node_index = VOIS[next_node].index(current_node)
+        DIST[next_node][current_node_index] = 0
 
 # CAR par CAR
 print CARS
