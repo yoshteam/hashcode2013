@@ -29,49 +29,65 @@ for i in range(N):
 	VOIS[GRAPH[i,0]].append(GRAPH[i,1])
 	TPS[GRAPH[i,0]].append(GRAPH[i,3])
 	DIST[GRAPH[i,0]].append(GRAPH[i,4])
-	if GRAPH[i,2]==2:
+	if GRAPH[i,2] == 2:
 		VOIS[GRAPH[i,1]].append(GRAPH[i,0])
 		TPS[GRAPH[i,1]].append(GRAPH[i,3])
 		DIST[GRAPH[i,1]].append(GRAPH[i,4])
 
+# VOIS[2803] = [1231, 123,123]
+# TPS[2803]  = [10s, 20s, 30s]
+# DIST[2803] = [10m, 200m, 300m]
 
 # the main code
 
 def best_neighbour(current_node, current_cost):
+    # fix     
     neighbours = VOIS[current_node]
     # filter very costly
     good_neighbours_indexes = []
     for n in range(len(neighbours)):
         if current_cost + TPS[current_node][n] <= TIME:
             good_neighbours_indexes.append(n)
-    best_neighbour_index = random.choice(good_neighbours_indexes)
-    cost = TPS[current_node][best_neighbour_index]
-    best_neighbour = neighbours[best_neighbour_index]
+    if len(good_neighbours_indexes) > 0:
+        best_neighbour_index = random.choice(good_neighbours_indexes)
+#        best_neighbour_index = good_neighbours_indexes[0]
+        cost = TPS[current_node][best_neighbour_index]
+        best_neighbour = neighbours[best_neighbour_index]
+    else:
+        # error
+        cost = -100
+        best_neighbour = -100
     return (best_neighbour, cost)
 
 def remove_award(current_node, next_node):
+    print "IN REMOVE AWARD:" ,current_node, next_node
     next_node_index = VOIS[current_node].index(next_node)
     """ the distance will be zero """
     DIST[current_node][next_node_index] = 0
-    if GRAPH[current_node,2]==2:
-        curent_node_index = VOIS[next_node].index(current_node)
+    if GRAPH[list(GRAPH[:,0]).index(current_node),2]==2:
+        current_node_index = VOIS[next_node].index(current_node)
         DIST[next_node][current_node_index] = 0
 
 # CAR par CAR
 print CARS
 for CAR in range(CARS):
-#    print (CAR)
     visited_nodes = []    
     current_node = STARTPOINT
-    current_cost = 0
+    current_time = 0
     visited_nodes.append(current_node)
-    while current_cost < TIME:
+    while current_time < TIME:
         # choose a neighbour
-        next_node, cost = best_neighbour(current_node, current_cost)
-        current_cost = current_cost + cost
-        # we was here, so we remove award
-        remove_award(current_node, next_node)
-        visited_nodes.append(next_node)
+        next_node, time = best_neighbour(current_node, current_time)
+        if next_node == -100:
+            break
+        else:
+            # we was here, so we remove award
+            remove_award(current_node, next_node)
+            visited_nodes.append(next_node)
+            current_node = next_node
+            current_time = current_time + time
+            print 'CURRENT TIME', current_time
+
         
     # output for that CAR
     print len(visited_nodes)
