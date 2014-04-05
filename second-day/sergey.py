@@ -48,9 +48,10 @@ def best_neighbour(current_node, current_cost):
     for n in range(len(neighbours)):
         if current_cost + TPS[current_node][n] <= TIME:
             good_neighbours_indexes.append(n)
+
     if len(good_neighbours_indexes) > 0:
         best_neighbour_index = random.choice(good_neighbours_indexes)
-#        best_neighbour_index = good_neighbours_indexes[0]
+        # best_neighbour_index = good_neighbours_indexes[0]
         cost = TPS[current_node][best_neighbour_index]
         best_neighbour = neighbours[best_neighbour_index]
     else:
@@ -60,16 +61,15 @@ def best_neighbour(current_node, current_cost):
     return (best_neighbour, cost)
 
 def remove_award(current_node, next_node):
-    print "IN REMOVE AWARD:" ,current_node, next_node
     next_node_index = VOIS[current_node].index(next_node)
-    """ the distance will be zero """
+    # the distance will be zero 
     DIST[current_node][next_node_index] = 0
-    if GRAPH[list(GRAPH[:,0]).index(current_node),2]==2:
+    if current_node in VOIS[next_node]:
         current_node_index = VOIS[next_node].index(current_node)
         DIST[next_node][current_node_index] = 0
 
-# CAR par CAR
 print CARS
+# CAR par CAR
 for CAR in range(CARS):
     visited_nodes = []    
     current_node = STARTPOINT
@@ -86,10 +86,8 @@ for CAR in range(CARS):
             visited_nodes.append(next_node)
             current_node = next_node
             current_time = current_time + time
-            print 'CURRENT TIME', current_time
-
-        
     # output for that CAR
+    # print len(visited_nodes)
     print len(visited_nodes)
     for n in visited_nodes:
         print n
