@@ -14,10 +14,11 @@ def read_file(path):
 			street_type = int(contents[2])
 			time = int(contents[3])
 			length = int(contents[4])
+			cost = 1/float(length)
 			
 			G.add_node(u)
 			G.add_node(v)
-			G.add_edge(u, v, street_type=street_type, time=time, length=length)
+			G.add_edge(u, v, street_type=street_type, time=time, length=length, cost=cost)
 
 			sys.stdout.write(line)
 	return G
