@@ -31,7 +31,7 @@ p=S
 P=[S]
 while t<T:
 	i=random.randint(0,len(VOIS[p])-1)
-	while len(VOIS(VOIS[p][i]))<0:
+	while len(VOIS[VOIS[p][i]])==0:
 		i=random.randint(0,len(VOIS[p])-1)
 	print i
 	t+=TPS[p][i]
@@ -40,7 +40,7 @@ while t<T:
 
 n=len(P)-1
 
-f=open("sor","w")
+f=open("sol","w")
 print>>f,8
 for i in range(7):
 	print>>f,1
